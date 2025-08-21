@@ -12,5 +12,6 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class PaymentFailedEvent {
-    List<OrderLineItem> orderLineItems;
+    private List<OrderLineItemDto> orderLineItems;
+    private String reason;
 }

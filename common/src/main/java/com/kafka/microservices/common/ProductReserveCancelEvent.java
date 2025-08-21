@@ -12,5 +12,6 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class ProductReserveCancelEvent {
-    List<OrderLineItem> orderLineItems;
+    List<OrderLineItemDto> orderLineItems;
+    private String reason;
 }

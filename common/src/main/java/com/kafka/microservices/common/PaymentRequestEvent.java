@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 @Builder
 public class PaymentRequestEvent {
-    List<OrderLineItem> orderLineItems;
+    List<OrderLineItemDto> orderLineItems;
     private Double totalAmount;
 
 }

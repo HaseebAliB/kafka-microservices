@@ -80,8 +80,17 @@ public class KafkaProducerConfig {
 
 
     @Bean
-    NewTopic createTopic() {
+    NewTopic createProductRequestTopic() {
         return TopicBuilder.name(Topics.PRODUCT_RESERVE_REQUEST_TOPIC)
+                .partitions(3)
+                .replicas(3)
+                .configs(Map.of("min.insync.replicas","2"))
+                .build();
+    }
+
+    @Bean
+    NewTopic createPaymentRequestTopic() {
+        return TopicBuilder.name(Topics.PAYMENT_REQUEST_TOPIC)
                 .partitions(3)
                 .replicas(3)
                 .configs(Map.of("min.insync.replicas","2"))

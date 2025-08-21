@@ -1,6 +1,7 @@
 package com.kafka.microservices.paymentservice.services;
 
-import com.kafka.microservices.common.OrderLineItem;
+import com.kafka.microservices.common.OrderLineItemDto;
+import com.kafka.microservices.common.PaymentFailedEvent;
 import com.kafka.microservices.common.PaymentProcessedEvent;
 import com.kafka.microservices.common.Topics;
 import com.kafka.microservices.paymentservice.model.Payment;
@@ -11,6 +12,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 @Service
@@ -20,7 +22,18 @@ public class PaymentServiceImpl  implements  PaymentService{
     private final KafkaTemplate kafkaTemplate;
 
     @Override
-    public void processPayment(String orderId, Double amount, List<OrderLineItem> itemList) {
+    public void processPayment(String orderId, Double amount, List<OrderLineItemDto> itemList) {
+
+        Boolean paymentSuccess = new Random().nextBoolean();
+
+        if (!paymentSuccess) {
+            PaymentFailedEvent paymentFailedEvent = new PaymentFailedEvent();
+            paymentFailedEvent.setOrderLineItems(itemList);
+            ProducerRecord<String,Object> producerRecord = new
+                    ProducerRecord<>(Topics.PAYMENT_RESPONSE_TOPIC,orderId,paymentFailedEvent);
+            kafkaTemplate.send(producerRecord);
+            return;
+        }
         Payment payment  = Payment.builder().processed(true).amount(amount)
                 .orderId(orderId)
                 .id(UUID.randomUUID().toString()).build();

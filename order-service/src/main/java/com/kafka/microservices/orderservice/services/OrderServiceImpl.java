@@ -1,5 +1,6 @@
 package com.kafka.microservices.orderservice.services;
 
+import com.kafka.microservices.common.OrderLineItemDto;
 import com.kafka.microservices.common.ProductReserveRequestEvent;
 import com.kafka.microservices.common.Topics;
 import com.kafka.microservices.orderservice.dto.OrderDto;
@@ -30,7 +31,18 @@ public class OrderServiceImpl implements  OrderService{
     }
 
     @Override
-    public Order updateOrder(String orderId, List<com.kafka.microservices.common.OrderLineItem> lineItems) {
+    public void CancelOrder(String orderId) {
+        Order order = findById(orderId);
+        if (order == null) {
+            log.error("Order not found for ID: " + orderId);
+            return;
+        }
+        order.setStatus(OrderStatus.REJECTED);
+        orderRepository.save(order);
+    }
+
+    @Override
+    public Order updateOrder(String orderId, List<OrderLineItemDto> lineItems) {
         Order order = findById(orderId);
         order.setAmount(calculateOrderAmount(lineItems));
         return orderRepository.save(order);
@@ -87,7 +99,7 @@ public class OrderServiceImpl implements  OrderService{
 
 
 
-    private Double calculateOrderAmount(List<com.kafka.microservices.common.OrderLineItem> lineItems){
+    private Double calculateOrderAmount(List<OrderLineItemDto> lineItems){
         Double amount = lineItems.stream().map(
                 item -> item.getPrice() * item.getQuantity()
         ).reduce(0.0, Double::sum);

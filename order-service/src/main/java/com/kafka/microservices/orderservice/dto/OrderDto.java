@@ -1,6 +1,6 @@
 package com.kafka.microservices.orderservice.dto;
 
-import com.kafka.microservices.common.OrderLineItem;
+import com.kafka.microservices.common.OrderLineItemDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,5 +15,5 @@ import java.util.List;
 public class OrderDto {
     private String id;
     private Double amount = 0.0;
-    private List<OrderLineItem> lineItems;
+    private List<OrderLineItemDto> lineItems;
 }

@@ -87,4 +87,13 @@ public class KafkaProducerConfig {
                 .build();
     }
 
+    @Bean
+    NewTopic createOrderTopic() {
+        return TopicBuilder.name(Topics.ORDER_UPDATE_TOPIC)
+                .partitions(3)
+                .replicas(3)
+                .configs(Map.of("min.insync.replicas","2"))
+                .build();
+    }
+
 }

@@ -12,5 +12,5 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class ProductReservedEvent {
-    List<OrderLineItem> orderLineItems;
+    List<OrderLineItemDto> orderLineItems;
 }
