@@ -1,6 +1,6 @@
-package com.kafka.microservices.productservice.model;
+package com.kafka.microservices.paymentservice.model;
 
-import jakarta.annotation.Nullable;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
@@ -13,15 +13,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Product {
+public class Payment {
 
     @Id
-    private String productId;
-
-    private String name;
-    private Double price;
-    private Integer quantity;
-
-
+    private String id;
+    private Double amount;
+    private String orderId;
+    private Boolean processed = false;
 
 }

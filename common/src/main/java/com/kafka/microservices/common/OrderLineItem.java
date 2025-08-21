@@ -6,13 +6,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class ProductEvent {
-private String productId;
-private String name;
-private Double price;
-private Integer quantity;
-
+public class OrderLineItem {
+    private String productId;
+    private String orderId;
+    private Double price;
+    private Integer quantity;
 }

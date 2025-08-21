@@ -1,6 +1,5 @@
-package com.kafka.microservices.productservice;
+package com.kafka.microservices.paymentservice.config;
 
-import com.kafka.microservices.common.ProductEvent;
 import com.kafka.microservices.common.Topics;
 import jakarta.persistence.EntityManagerFactory;
 import org.apache.kafka.clients.admin.NewTopic;
@@ -21,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-public class KafkaConfig {
+public class KafkaProducerConfig{
 
     @Value("${spring.kafka.producer.bootstrap-servers}")
     private String bootstrapServers;
@@ -81,7 +80,7 @@ public class KafkaConfig {
 
     @Bean
     NewTopic createTopic() {
-        return TopicBuilder.name(Topics.PRODUCT_CREATION_TOPIC)
+        return TopicBuilder.name(Topics.PAYMENT_RESPONSE_TOPIC)
                 .partitions(3)
                 .replicas(3)
                 .configs(Map.of("min.insync.replicas","2"))

@@ -24,22 +24,23 @@ private final KafkaTemplate<String, Object>  kafkaTemplate;
 private final ProductRepository productRepository;
 
 @Transactional(value = "transactionManager")
-public void publish(ProductEvent productCreationEvent) throws Exception{
+public String publish(ProductEvent productCreationEvent) throws Exception{
 
     log.info("******inserting into ProductRepo from ProductCreatedEvent");
     Product product = Product.builder()
-            .productId(productCreationEvent.getProductId())
+            .productId(UUID.randomUUID().toString())
             .name(productCreationEvent.getName())
             .price(productCreationEvent.getPrice())
+            .quantity(productCreationEvent.getQuantity())
             .build();
 
-    productRepository.save(product);
+    Product newProduct = productRepository.save(product);
 
     log.info("******inserted into ProductRepo");
 
     ProducerRecord<String, Object> record = new ProducerRecord<>(
             Topics.PRODUCT_CREATION_TOPIC,
-            productCreationEvent.getProductId(),
+            newProduct.getProductId(),
             productCreationEvent);
     record.headers().add("messageId", UUID.randomUUID().toString().getBytes());
 
@@ -49,9 +50,9 @@ public void publish(ProductEvent productCreationEvent) throws Exception{
     log.info("******Topic: " + result.getRecordMetadata().topic());
     log.info("******Offset: " + result.getRecordMetadata().offset());
 
+ return newProduct.getProductId();
 
-
-    if (true) throw new RuntimeException("Simulated exception for testing error handling");
+   // if (true) throw new RuntimeException("Simulated exception for testing error handling");
 
 
 

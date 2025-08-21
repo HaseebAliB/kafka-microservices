@@ -20,11 +20,12 @@ private final MessageService messageService;
 @PostMapping("/create")
    public ResponseEntity<?> create(@RequestBody ProductEvent productEvent){
     try{
-        messageService.publish(productEvent);
+        String productId = messageService.publish(productEvent);
+        return ResponseEntity.ok(productId);
     }catch (Exception e){
         return ResponseEntity.status(500).body("Error occurred while publishing product: " + e.getMessage());
     }
-    return ResponseEntity.ok("Product created successfully");
+
 }
 
 

@@ -18,6 +18,8 @@
 		<module>common</module>
 		<module>ProductService</module>
 		<module>notificationservice</module>
+		<module>order-service</module>
+		<module>payment-service</module>
 	</modules>
 	<url/>
 	<licenses>
