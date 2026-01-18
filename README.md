@@ -113,22 +113,23 @@ SPRING_PROFILES_ACTIVE=k8s
 Apply all K8 manifests in the recommended order:
 
 # Kafka 
-kubectl apply -f kafka-docker/kafka/
+kubectl apply -f kafka-k8s/kafka/
 
 # Databases
-kubectl apply -f kafka-docker/postgres/
+kubectl apply -f kafka-k8s/postgres/
 
 # Redis
-kubectl apply -f kafka-docker/redis/
+kubectl apply -f kafka-k8s/redis/
 
 # Microservices
-kubectl apply -f kafka-docker/product-service/
-kubectl apply -f kafka-docker/order-service/
-kubectl apply -f kafka-docker/payment-service/
-kubectl apply -f kafka-docker/ws-gateway/
+kubectl apply -f kafka-k8s/product-service/
+kubectl apply -f kafka-k8s/order-service/
+kubectl apply -f kafka-k8s/payment-service/
+kubectl apply -f kafka-k8s/ws-service/
 
 📌 Validate
-kubectl get pods
+kubectl get pods 
+
 kubectl get services
 
 🎯 What This Project Demonstrates
