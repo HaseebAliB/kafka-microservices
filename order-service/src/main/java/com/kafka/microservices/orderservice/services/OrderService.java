@@ -16,6 +16,8 @@ public interface OrderService {
 
     void CancelOrder(String orderId);
 
+    Order saveOrder(Order order);
+
 
 
 }

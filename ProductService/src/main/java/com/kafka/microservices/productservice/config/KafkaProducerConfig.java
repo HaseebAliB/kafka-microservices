@@ -8,6 +8,7 @@ import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -20,9 +21,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
+@Profile("k8s")
 public class KafkaProducerConfig {
 
-    @Value("${spring.kafka.producer.bootstrap-servers}")
+    @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
 
     @Value("${spring.kafka.producer.acks}")
@@ -80,19 +82,17 @@ public class KafkaProducerConfig {
 
     @Bean
     NewTopic createTopic() {
-        return TopicBuilder.name(Topics.PRODUCT_RESERVE_RESPONSE_TOPIC)
+        return TopicBuilder.name(Topics.ORDER_REQUEST_TOPIC)
                 .partitions(3)
-                .replicas(3)
-                .configs(Map.of("min.insync.replicas","2"))
+                .replicas(1)
                 .build();
     }
 
     @Bean
     NewTopic createOrderTopic() {
-        return TopicBuilder.name(Topics.ORDER_UPDATE_TOPIC)
+        return TopicBuilder.name(Topics.ORDER_COMPLETE_TOPIC)
                 .partitions(3)
-                .replicas(3)
-                .configs(Map.of("min.insync.replicas","2"))
+                .replicas(1)
                 .build();
     }
 

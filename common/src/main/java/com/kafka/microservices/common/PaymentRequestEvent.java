@@ -5,14 +5,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
 public class PaymentRequestEvent {
-    List<OrderLineItemDto> orderLineItems;
-    private Double totalAmount;
+    private Long productId;
+    private String orderId;
+    private Double price;
+    private Integer quantity;
+
 
 }

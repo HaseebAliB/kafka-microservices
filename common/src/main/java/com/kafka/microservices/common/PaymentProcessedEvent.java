@@ -5,12 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class PaymentProcessedEvent {
-    List<OrderLineItemDto> orderLineItems;
+    private Long productId;
+    private String orderId;
+    private Double price;
+    private Integer quantity;
 }

@@ -42,6 +42,11 @@ public class OrderServiceImpl implements  OrderService{
     }
 
     @Override
+    public Order saveOrder(Order order) {
+        return orderRepository.save(order);
+    }
+
+    @Override
     public Order updateOrder(String orderId, List<OrderLineItemDto> lineItems) {
         Order order = findById(orderId);
         order.setAmount(calculateOrderAmount(lineItems));

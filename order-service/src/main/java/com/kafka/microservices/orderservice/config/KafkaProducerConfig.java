@@ -9,6 +9,7 @@ import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -21,6 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
+@Profile("k8s")
 public class KafkaProducerConfig {
 
     @Value("${spring.kafka.producer.bootstrap-servers}")
@@ -80,11 +82,10 @@ public class KafkaProducerConfig {
 
 
     @Bean
-    NewTopic createProductRequestTopic() {
-        return TopicBuilder.name(Topics.PRODUCT_RESERVE_REQUEST_TOPIC)
+    NewTopic createPaymentProcessedTopic() {
+        return TopicBuilder.name(Topics.PAYMENT_PROCESSED_TOPIC)
                 .partitions(3)
-                .replicas(3)
-                .configs(Map.of("min.insync.replicas","2"))
+                .replicas(1)
                 .build();
     }
 
@@ -92,8 +93,7 @@ public class KafkaProducerConfig {
     NewTopic createPaymentRequestTopic() {
         return TopicBuilder.name(Topics.PAYMENT_REQUEST_TOPIC)
                 .partitions(3)
-                .replicas(3)
-                .configs(Map.of("min.insync.replicas","2"))
+                .replicas(1)
                 .build();
     }
 

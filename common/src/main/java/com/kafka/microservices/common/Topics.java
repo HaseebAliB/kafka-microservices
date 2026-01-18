@@ -11,4 +11,8 @@ public class Topics {
 
    public static final String ORDER_UPDATE_TOPIC = "order-update-topic";
 
+   public static final String ORDER_REQUEST_TOPIC = "order-request-topic";
+   public static final String PAYMENT_PROCESSED_TOPIC = "payment-processed-topic";
+   public static final String ORDER_COMPLETE_TOPIC = "order-complete-topic";
+
 }

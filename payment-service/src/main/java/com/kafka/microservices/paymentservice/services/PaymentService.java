@@ -1,12 +1,10 @@
 package com.kafka.microservices.paymentservice.services;
 
-import com.kafka.microservices.common.OrderLineItemDto;
-
-import java.util.List;
+import com.kafka.microservices.common.PaymentRequestEvent;
 
 public interface PaymentService {
 
-    void processPayment(String orderId, Double amount, List<OrderLineItemDto> lineItemList);
+    void processPayment(PaymentRequestEvent paymentRequestEvent);
 
 }
 
