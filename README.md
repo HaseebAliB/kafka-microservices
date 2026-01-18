@@ -127,10 +127,10 @@ kubectl apply -f kafka-k8s/order-service/
 kubectl apply -f kafka-k8s/payment-service/
 kubectl apply -f kafka-k8s/ws-service/
 
-📌 Validate
-kubectl get pods 
+📌 Validate 
+ kubectl get pods 
 
-kubectl get services
+ kubectl get services
 
 🎯 What This Project Demonstrates
 
