@@ -32,6 +32,7 @@ jobs:
         run: |
           echo "::group::Running OrderServiceApplicationTests..."
           set -e
+          ./mvnw clean install -pl common,order-service -am -DskipTests
           ./mvnw clean test -pl order-service -Dtest=OrderServiceApplicationTests
           echo "::endgroup::"
           echo "::notice::✅ OrderService health test passed!"
