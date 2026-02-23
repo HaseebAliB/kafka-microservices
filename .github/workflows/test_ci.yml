@@ -1,0 +1,55 @@
+name: CI Test and Start Full App
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  test-and-start:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ Checkout repo
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # 2️⃣ Set up Java
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: 'maven'
+
+      # 3️⃣ Grant mvnw permissions
+      - name: Grant execute permission for mvnw
+        run: chmod +x mvnw || true
+
+      # 4️⃣ Run health check test for order-service
+      - name: Run OrderService Health Check Test
+        id: order_test
+        run: |
+          echo "::group::Running OrderServiceApplicationTests..."
+          set -e
+          ./mvnw clean test -pl order-service -am -Dtest=OrderServiceApplicationTests
+          echo "::endgroup::"
+          echo "::notice::✅ OrderService health test passed!"
+
+      # 5️⃣ Start the entire microservices stack with Docker Compose if test passed
+      - name: Start Full Microservices Stack
+        if: success()
+        run: |
+          echo "::group::Starting full microservices stack..."
+          docker compose -f docker-compose.yml up -d
+          echo "::endgroup::"
+          echo "::notice::🚀 All services started successfully!"
+
+      # 6️⃣ Stop all containers and remove images after execution
+      - name: Cleanup Docker Containers and Images
+        if: success()
+        run: |
+          echo "::group::Stopping all Docker containers..."
+          docker compose -f docker-compose.yml down --rmi all
+          echo "::endgroup::"
+          echo "::notice::🧹 All Docker containers stopped and images removed!"
