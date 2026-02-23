@@ -1,6 +1,22 @@
+# Stage 1: Build
+FROM maven:3.9.4-eclipse-temurin-17 AS build
+
+WORKDIR /app
+
+# Copy entire project (IMPORTANT)
+COPY . .
+
+# Build only ProductService module
+RUN mvn clean package -DskipTests -pl ws-gateway -am
+
+# Stage 2: Runtime
 FROM eclipse-temurin:17-jre-alpine
 
 WORKDIR /app
-COPY target/ws-gateway-*.jar app.jar
 
-CMD ["java", "-jar", "/app/app.jar"]
+COPY --from=build /app/ws-gateway/target/*.jar app4.jar
+
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+USER appuser
+
+CMD ["java", "-jar", "/app/app4.jar"]

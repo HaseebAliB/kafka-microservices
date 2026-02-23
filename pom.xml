@@ -20,6 +20,7 @@
 		<module>notificationservice</module>
 		<module>order-service</module>
 		<module>payment-service</module>
+		<module>ws-gateway</module>
 	</modules>
 	<url/>
 	<licenses>
